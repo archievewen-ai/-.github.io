@@ -1,0 +1,33 @@
+<!-- 在<head>标签内添加以下PWA配置 -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#9E85BE">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="囤货管家">
+<link rel="apple-touch-icon" href="icons/icon-192x192.png">
+
+<!-- 在<body>结束标签前，</script>之后添加Service Worker注册 -->
+<script>
+// 注册Service Worker
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('sw.js')
+      .then(function(registration) {
+        console.log('SW registered: ', registration);
+      })
+      .catch(function(registrationError) {
+        console.log('SW registration failed: ', registrationError);
+      });
+  });
+}
+
+// 添加安装提示
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  
+  // 可以在这里显示自定义安装按钮
+  console.log('可以安装应用到桌面');
+});
+</script>
